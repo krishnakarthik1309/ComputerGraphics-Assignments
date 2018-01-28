@@ -42,7 +42,7 @@ void DrawCircle(float cx, float cy, float r, int num_segments)
     glEnd();
 }
 
-void drawPlanet (float planetSize, float orbitRadius) {
+void drawPlanet (float planetSize, float orbitRadius, float freq, int initial) {
     glMatrixMode(GL_MODELVIEW);
     // glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
@@ -50,7 +50,34 @@ void drawPlanet (float planetSize, float orbitRadius) {
     glColor3f(0.2, 0.8, 0.5);
 
     // changing in transformation matrix.
-    glTranslatef(orbitRadius*p1x, orbitRadius*p1y, Tz);
+    glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq), orbitRadius*cos(initial + timeSinceStart*freq), Tz);
+
+    // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
+    // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
+    glRotated(Rz, 0, 0, 1);
+
+    glScalef(Sx, Sy, Sz);
+
+    // Different default objects
+
+    // glutWireCone(1.0, 3.0, 100, 3);
+    // glutWireTorus(1.0, 2.0, 6, 4);
+    // glutWireDodecahedron();
+    // glutWireIcosahedron();
+    glutSolidSphere(planetSize, 20, 20);
+    glFlush();
+    glutSwapBuffers();
+}
+
+void drawMoon (float planetSize, float orbitRadius, float freq, int initial) {
+    glMatrixMode(GL_MODELVIEW);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+
+    glColor3f(0.2, 0.8, 0.5);
+
+    // changing in transformation matrix.
+    glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq) + 0.2*sin(timeSinceStart*2), orbitRadius*cos(initial + timeSinceStart*freq) + 0.2*cos(timeSinceStart*2), Tz);
 
     // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
     // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
@@ -73,8 +100,8 @@ void renderScene(void){
     timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     Rz = 50.0*timeSinceStart;
 
-    p1x = sin(timeSinceStart);
-    p1y = cos(timeSinceStart);
+    // p1x = sin(timeSinceStart);
+    // p1y = cos(timeSinceStart);
 
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -88,12 +115,12 @@ void renderScene(void){
     glScalef(Sx, Sy, Sz);
 
     // orbits
+    DrawCircle(0.0, 0.0, 0.8, 5000);
     DrawCircle(0.0, 0.0, 1, 5000);
-    DrawCircle(0.0, 0.0, 1.3, 5000);
-    DrawCircle(0.0, 0.0, 1.7, 5000);
-    DrawCircle(0.0, 0.0, 2.1, 5000);
-    DrawCircle(0.0, 0.0, 2.6, 5000);
-    DrawCircle(0.0, 0.0, 3, 5000);
+    DrawCircle(0.0, 0.0, 1.4, 5000);
+    DrawCircle(0.0, 0.0, 1.8, 5000);
+    DrawCircle(0.0, 0.0, 2.4, 5000);
+    DrawCircle(0.0, 0.0, 3.1, 5000);
     DrawCircle(0.0, 0.0, 3.5, 5000);
     DrawCircle(0.0, 0.0, 4, 5000);
 
@@ -101,31 +128,34 @@ void renderScene(void){
     glutSwapBuffers();
 
     // sun
-    drawPlanet(0.75, 0);
+    drawPlanet(0.6, 0, 0, 0);
 
     // planet 1
-    drawPlanet(0.1, 1);
+    drawPlanet(0.04, 0.8, -1, 1);
 
     // planet 2
-    drawPlanet(0.1, 1.3);
+    drawPlanet(0.099, 1, 0.7, 1.2);
 
-    // planet 3
-    drawPlanet(0.1, 1.7);
+    // planet 3 Earth
+    drawPlanet(0.1, 1.4, 0.6, 0);
+
+    // moon
+    drawMoon(0.01, 1.4, 0.6, 0);
 
     // planet 4
-    drawPlanet(0.1, 2.1);
+    drawPlanet(0.08, 1.8, 0.4, 0.7);
 
     // planet 5
-    drawPlanet(0.1, 2.6);
+    drawPlanet(0.3, 2.4, 0.33, 1.4);
 
     // planet 6
-    drawPlanet(0.1, 3);
+    drawPlanet(0.22, 3.1, 0.27, 1.7);
 
     // planet 7
-    drawPlanet(0.1, 3.5);
+    drawPlanet(0.16, 3.5, 0.2, 2.3);
 
     // planet 8
-    drawPlanet(0.1, 4);
+    drawPlanet(0.15, 4, 0.17, 1.9);
 
 }
 
