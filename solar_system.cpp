@@ -133,31 +133,31 @@ void renderScene(void){
     drawPlanet(0.6, 0, 0, 0, 0.8, 0.3, 0);
 
     // planet 1
-    drawPlanet(0.04, 0.8, -1, 1, 1, 0, 0);
+    drawPlanet(0.04, 0.8, -0.1, 0.7, 1, 0, 0);
 
     // planet 2
-    drawPlanet(0.099, 1, 0.7, 1.2, 1, 0.5, 0);
+    drawPlanet(0.099, 1, 0.07, 1.2, 1, 0.5, 0);
 
     // planet 3 Earth
-    drawPlanet(0.1, 1.4, 0.6, 0, 0.1, 0.9, 0.6);
+    drawPlanet(0.1, 1.4, 0.06, 0, 0.1, 0.9, 0.6);
 
     // moon
-    drawMoon(0.01, 1.4, 0.6, 0);
+    drawMoon(0.01, 1.4, 0.06, 0);
 
     // planet 4
-    drawPlanet(0.08, 1.8, 0.4, 0.7, 0.5, 0.5, 0.5);
+    drawPlanet(0.08, 1.8, 0.051, 2.7, 0.5, 0.5, 0.5);
 
     // planet 5
-    drawPlanet(0.3, 2.4, 0.33, 1.4, 0.7, 0.2, 0.9);
+    drawPlanet(0.3, 2.4, 0.038, 3.1, 0.7, 0.2, 0.9);
 
     // planet 6
-    drawPlanet(0.22, 3.1, 0.27, 1.7, 0.2, 0.5, 0.6);
+    drawPlanet(0.22, 3.1, 0.031, 1.7, 0.2, 0.5, 0.6);
 
     // planet 7
-    drawPlanet(0.16, 3.5, 0.2, 2.3, 0.8, 0.1, 0.1);
+    drawPlanet(0.16, 3.5, 0.021, 2.3, 0.8, 0.1, 0.1);
 
     // planet 8
-    drawPlanet(0.15, 4, 0.17, 1.9, 0, 0, 1);
+    drawPlanet(0.15, 4, 0.017, 4.9, 0, 0, 1);
 
 }
 
@@ -174,7 +174,7 @@ void changeSize(int x, int y){
     glMatrixMode(GL_MODELVIEW);
 }
 
-void animate(void){
+void timer(int value){
     // timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     // Rz = 0.0*timeSinceStart;
 
@@ -189,6 +189,7 @@ void animate(void){
     // // Tx += gg*0.01;
     // renderScene();
     glutPostRedisplay();
+    glutTimerFunc( 75, timer, 0 );
 }
 
 int main (int argc, char **argv){
@@ -210,7 +211,8 @@ int main (int argc, char **argv){
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
 
-    glutIdleFunc(animate);                  //for animation uncomment
+    // glutIdleFunc(animate);                  //for animation uncomment
+    glutTimerFunc( 0, timer, 0 );
 
     //Let start glut loop
     glutMainLoop();
