@@ -20,10 +20,11 @@
 #include <math.h>
 
 
-GLfloat Tx,Ty,Tz;
+GLfloat Tx,Ty,Tz, p1x, p1y;
 GLfloat Rx,Ry,Rz;
 GLfloat Sx,Sy,Sz;
 GLfloat gg;
+static double timeSinceStart;
 
 void DrawCircle(float cx, float cy, float r, int num_segments)
 {
@@ -41,7 +42,40 @@ void DrawCircle(float cx, float cy, float r, int num_segments)
     glEnd();
 }
 
+void drawPlanet (float planetSize, float orbitRadius) {
+    glMatrixMode(GL_MODELVIEW);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+
+    glColor3f(0.2, 0.8, 0.5);
+
+    // changing in transformation matrix.
+    glTranslatef(orbitRadius*p1x, orbitRadius*p1y, Tz);
+
+    // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
+    // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
+    glRotated(Rz, 0, 0, 1);
+
+    glScalef(Sx, Sy, Sz);
+
+    // Different default objects
+
+    // glutWireCone(1.0, 3.0, 100, 3);
+    // glutWireTorus(1.0, 2.0, 6, 4);
+    // glutWireDodecahedron();
+    // glutWireIcosahedron();
+    glutSolidSphere(planetSize, 20, 20);
+    glFlush();
+    glutSwapBuffers();
+}
+
 void renderScene(void){
+    timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    Rz = 50.0*timeSinceStart;
+
+    p1x = sin(timeSinceStart);
+    p1y = cos(timeSinceStart);
+
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
@@ -55,9 +89,10 @@ void renderScene(void){
 
     // orbits
     DrawCircle(0.0, 0.0, 1, 5000);
-    DrawCircle(0.0, 0.0, 1.5, 5000);
-    DrawCircle(0.0, 0.0, 2, 5000);
-    DrawCircle(0.0, 0.0, 2.5, 5000);
+    DrawCircle(0.0, 0.0, 1.3, 5000);
+    DrawCircle(0.0, 0.0, 1.7, 5000);
+    DrawCircle(0.0, 0.0, 2.1, 5000);
+    DrawCircle(0.0, 0.0, 2.6, 5000);
     DrawCircle(0.0, 0.0, 3, 5000);
     DrawCircle(0.0, 0.0, 3.5, 5000);
     DrawCircle(0.0, 0.0, 4, 5000);
@@ -65,42 +100,32 @@ void renderScene(void){
     glFlush();
     glutSwapBuffers();
 
-    // // Different default objects
+    // sun
+    drawPlanet(0.75, 0);
 
-    // // glutWireCone(1.0, 3.0, 100, 3);
-    // // glutWireTorus(1.0, 2.0, 6, 4);
-    // // glutWireDodecahedron();
-    // // glutWireIcosahedron();
-    // glutWireTeapot(1.0);
+    // planet 1
+    drawPlanet(0.1, 1);
 
-    // glFlush();
-    // glutSwapBuffers();
+    // planet 2
+    drawPlanet(0.1, 1.3);
 
-    glMatrixMode(GL_MODELVIEW);
-    // glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity();
+    // planet 3
+    drawPlanet(0.1, 1.7);
 
-    glColor3f(0.2, 0.8, 0.5);
+    // planet 4
+    drawPlanet(0.1, 2.1);
 
-    // changing in transformation matrix.
-    glTranslatef(Tx, Ty, Tz);
+    // planet 5
+    drawPlanet(0.1, 2.6);
 
-    glRotatef(Rx, 1.0f, 0.0f, 0.0f);
-    glRotatef(Ry, 0.0f, 1.0f, 0.0f);
-    glRotatef(Rz, 1.0f, 0.0f, 1.0f);
+    // planet 6
+    drawPlanet(0.1, 3);
 
-    glScalef(Sx, Sy, Sz);
+    // planet 7
+    drawPlanet(0.1, 3.5);
 
-    // Different default objects
-
-    // glutWireCone(1.0, 3.0, 100, 3);
-    // glutWireTorus(1.0, 2.0, 6, 4);
-    // glutWireDodecahedron();
-    // glutWireIcosahedron();
-    glutSolidSphere(0.75, 2000, 2000);
-    glFlush();
-    glutSwapBuffers();
-
+    // planet 8
+    drawPlanet(0.1, 4);
 
 }
 
@@ -118,27 +143,33 @@ void changeSize(int x, int y){
 }
 
 void animate(void){
-    Ry += 0.5;
+    // timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    // Rz = 0.0*timeSinceStart;
 
-    // if (Tx > 3.5) {
-    //     gg = -1;
-    // } else if (Tx <-3.5) {
-    //     gg = 1;
-    // }
-    // Tx += gg*0.01;
-    renderScene();
+    // p1x = sin(timeSinceStart);
+    // p1y = cos(timeSinceStart);
+
+    // // if (Tx > 3.5) {
+    // //     gg = -1;
+    // // } else if (Tx <-3.5) {
+    // //     gg = 1;
+    // // }
+    // // Tx += gg*0.01;
+    // renderScene();
+    glutPostRedisplay();
 }
 
 int main (int argc, char **argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(1000,1000);
+    glutInitWindowSize(1600,1200);
     glutInitWindowPosition(100,100);
     glutCreateWindow("Assignment1");
 
     glClearColor(0.0,0.0,0.0,0.0);
 
     Tx = 0.0; Ty = 0.0; Tz = -10.0;
+    p1x = 1; p1y = 0;
     Rx = 40.0; Ry = 33.0; Rz = 23.0;
     Sx = 1.0; Sy = 1.0; Sz = 1.0;
     gg = 1;
@@ -147,7 +178,7 @@ int main (int argc, char **argv){
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
 
-    // glutIdleFunc(animate);                  //for animation uncomment
+    glutIdleFunc(animate);                  //for animation uncomment
 
     //Let start glut loop
     glutMainLoop();
