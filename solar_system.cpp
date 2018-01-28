@@ -42,12 +42,12 @@ void DrawCircle(float cx, float cy, float r, int num_segments)
     glEnd();
 }
 
-void drawPlanet (float planetSize, float orbitRadius, float freq, int initial) {
+void drawPlanet (float planetSize, float orbitRadius, float freq, int initial, float col1, float col2, float col3) {
     glMatrixMode(GL_MODELVIEW);
     // glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    glColor3f(0.2, 0.8, 0.5);
+    glColor3f(col1, col2, col3);
 
     // changing in transformation matrix.
     glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq), orbitRadius*cos(initial + timeSinceStart*freq), Tz);
@@ -74,7 +74,7 @@ void drawMoon (float planetSize, float orbitRadius, float freq, int initial) {
     // glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    glColor3f(0.2, 0.8, 0.5);
+    glColor3f(0.9, 0.9, 0.9);
 
     // changing in transformation matrix.
     glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq) + 0.2*sin(timeSinceStart*2), orbitRadius*cos(initial + timeSinceStart*freq) + 0.2*cos(timeSinceStart*2), Tz);
@@ -107,7 +107,7 @@ void renderScene(void){
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    glColor3f(0.2, 0.8, 0.5);
+    glColor3f(0.9, 0.9, 0.9);
 
     // // changing in transformation matrix.
     glTranslatef(Tx, Ty, Tz);
@@ -128,34 +128,34 @@ void renderScene(void){
     glutSwapBuffers();
 
     // sun
-    drawPlanet(0.6, 0, 0, 0);
+    drawPlanet(0.6, 0, 0, 0, 0.8, 0.3, 0);
 
     // planet 1
-    drawPlanet(0.04, 0.8, -1, 1);
+    drawPlanet(0.04, 0.8, -1, 1, 1, 0, 0);
 
     // planet 2
-    drawPlanet(0.099, 1, 0.7, 1.2);
+    drawPlanet(0.099, 1, 0.7, 1.2, 1, 0.5, 0);
 
     // planet 3 Earth
-    drawPlanet(0.1, 1.4, 0.6, 0);
+    drawPlanet(0.1, 1.4, 0.6, 0, 0.1, 0.9, 0.6);
 
     // moon
     drawMoon(0.01, 1.4, 0.6, 0);
 
     // planet 4
-    drawPlanet(0.08, 1.8, 0.4, 0.7);
+    drawPlanet(0.08, 1.8, 0.4, 0.7, 0.5, 0.5, 0.5);
 
     // planet 5
-    drawPlanet(0.3, 2.4, 0.33, 1.4);
+    drawPlanet(0.3, 2.4, 0.33, 1.4, 0.7, 0.2, 0.9);
 
     // planet 6
-    drawPlanet(0.22, 3.1, 0.27, 1.7);
+    drawPlanet(0.22, 3.1, 0.27, 1.7, 0.2, 0.5, 0.6);
 
     // planet 7
-    drawPlanet(0.16, 3.5, 0.2, 2.3);
+    drawPlanet(0.16, 3.5, 0.2, 2.3, 0.8, 0.1, 0.1);
 
     // planet 8
-    drawPlanet(0.15, 4, 0.17, 1.9);
+    drawPlanet(0.15, 4, 0.17, 1.9, 0, 0, 1);
 
 }
 
