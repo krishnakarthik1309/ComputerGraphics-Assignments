@@ -26,6 +26,8 @@ GLfloat Sx,Sy,Sz;
 GLfloat gg;
 static double timeSinceStart;
 
+// I(14292) used the code for DrawCircle from:
+// https://stackoverflow.com/questions/22444450/drawing-circle-with-opengl
 void DrawCircle(float cx, float cy, float r, int num_segments)
 {
     glBegin(GL_LINE_LOOP);
@@ -33,8 +35,8 @@ void DrawCircle(float cx, float cy, float r, int num_segments)
     {
         float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
 
-        float x = r * cosf(theta);//calculate the x component
-        float y = r * sinf(theta);//calculate the y component
+        float x = r * sinf(theta);//calculate the x component
+        float y = 0.8 * r * cosf(theta);//calculate the y component
 
         glVertex2f(x + cx, y + cy);//output vertex
 
@@ -50,7 +52,7 @@ void drawPlanet (float planetSize, float orbitRadius, float freq, int initial, f
     glColor3f(col1, col2, col3);
 
     // changing in transformation matrix.
-    glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq), orbitRadius*cos(initial + timeSinceStart*freq), Tz);
+    glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq), 0.8*orbitRadius*cos(initial + timeSinceStart*freq), Tz);
 
     // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
     // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
@@ -77,7 +79,7 @@ void drawMoon (float planetSize, float orbitRadius, float freq, int initial) {
     glColor3f(0.9, 0.9, 0.9);
 
     // changing in transformation matrix.
-    glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq) + 0.2*sin(timeSinceStart*2), orbitRadius*cos(initial + timeSinceStart*freq) + 0.2*cos(timeSinceStart*2), Tz);
+    glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq) + 0.2*sin(timeSinceStart*2), 0.8*orbitRadius*cos(initial + timeSinceStart*freq) + 0.2*cos(timeSinceStart*2), Tz);
 
     // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
     // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
