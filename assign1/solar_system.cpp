@@ -16,7 +16,6 @@
 #include <GL/glut.h>
 #endif
 
-#include <stdio.h>
 #include <math.h>
 
 
@@ -187,8 +186,7 @@ void timer(int value){
     // //     gg = 1;
     // // }
     // // Tx += gg*0.01;
-    // renderScene();
-    glutPostRedisplay();
+    renderScene();
     glutTimerFunc( 75, timer, 0 );
 }
 
