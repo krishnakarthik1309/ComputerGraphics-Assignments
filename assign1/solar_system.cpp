@@ -45,7 +45,6 @@ void DrawCircle(float cx, float cy, float r, int num_segments)
 
 void drawPlanet (float planetSize, float orbitRadius, float freq, int initial, float col1, float col2, float col3) {
     glMatrixMode(GL_MODELVIEW);
-    // glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
     glColor3f(col1, col2, col3);
@@ -53,56 +52,31 @@ void drawPlanet (float planetSize, float orbitRadius, float freq, int initial, f
     // changing in transformation matrix.
     glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq), 0.8*orbitRadius*cos(initial + timeSinceStart*freq), Tz);
 
-    // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
-    // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
     glRotated(Rz, 0, 0, 1);
 
     glScalef(Sx, Sy, Sz);
 
-    // Different default objects
-
-    // glutWireCone(1.0, 3.0, 100, 3);
-    // glutWireTorus(1.0, 2.0, 6, 4);
-    // glutWireDodecahedron();
-    // glutWireIcosahedron();
-    glutSolidSphere(planetSize, 20, 20);
-    glFlush();
-    glutSwapBuffers();
+    glutSolidSphere(planetSize, 25, 2);
 }
 
 void drawMoon (float planetSize, float orbitRadius, float freq, int initial) {
     glMatrixMode(GL_MODELVIEW);
-    // glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
     glColor3f(0.9, 0.9, 0.9);
 
     // changing in transformation matrix.
     glTranslatef(orbitRadius*sin(initial + timeSinceStart*freq) + 0.2*sin(timeSinceStart*2), 0.8*orbitRadius*cos(initial + timeSinceStart*freq) + 0.2*cos(timeSinceStart*2), Tz);
-
-    // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
-    // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
     glRotated(Rz, 0, 0, 1);
 
     glScalef(Sx, Sy, Sz);
-
-    // Different default objects
-
-    // glutWireCone(1.0, 3.0, 100, 3);
-    // glutWireTorus(1.0, 2.0, 6, 4);
-    // glutWireDodecahedron();
-    // glutWireIcosahedron();
     glutSolidSphere(planetSize, 20, 20);
-    glFlush();
-    glutSwapBuffers();
 }
 
 void renderScene(void){
     timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     Rz = 50.0*timeSinceStart;
 
-    // p1x = sin(timeSinceStart);
-    // p1y = cos(timeSinceStart);
 
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -124,9 +98,6 @@ void renderScene(void){
     DrawCircle(0.0, 0.0, 3.1, 5000);
     DrawCircle(0.0, 0.0, 3.5, 5000);
     DrawCircle(0.0, 0.0, 4, 5000);
-
-    glFlush();
-    glutSwapBuffers();
 
     // sun
     drawPlanet(0.6, 0, 0, 0, 0.8, 0.3, 0);
@@ -158,6 +129,9 @@ void renderScene(void){
     // planet 8
     drawPlanet(0.15, 4, 0.017, 4.9, 0, 0, 1);
 
+    glFlush();
+    // glutSwapBuffers();
+
 }
 
 void changeSize(int x, int y){
@@ -174,18 +148,6 @@ void changeSize(int x, int y){
 }
 
 void timer(int value){
-    // timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    // Rz = 0.0*timeSinceStart;
-
-    // p1x = sin(timeSinceStart);
-    // p1y = cos(timeSinceStart);
-
-    // // if (Tx > 3.5) {
-    // //     gg = -1;
-    // // } else if (Tx <-3.5) {
-    // //     gg = 1;
-    // // }
-    // // Tx += gg*0.01;
     renderScene();
     glutTimerFunc( 75, timer, 0 );
 }
@@ -193,7 +155,7 @@ void timer(int value){
 int main (int argc, char **argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(1600,1200);
+    glutInitWindowSize(1200,1000);
     glutInitWindowPosition(100,100);
     glutCreateWindow("Assignment1");
 
