@@ -45,67 +45,27 @@ void drawChair (float x, float y, float z) {
 }
 
 void drawChairs () {
-    float z_delta = -12.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
+    float z = -12.0, x = -3.4, y = -3.0;
+    while (z < 16.1) {
+        x = -3.4;
+        while (x < 3.5) {
+            drawChair(x, y, z);
+            x += 1.7;
+        }
+        z += 4.0;
+    }
+}
 
-    z_delta = -8.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-    z_delta = -4.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-    z_delta = -0.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-    z_delta = 4.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-    z_delta = 8.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-    z_delta = 12.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-    z_delta = 16.0;
-    drawChair(-3.4, -3.0, z_delta);
-    drawChair(-1.7, -3.0, z_delta);
-    drawChair(0.0, -3.0, z_delta);
-    drawChair(1.7, -3.0, z_delta);
-    drawChair(3.4, -3.0, z_delta);
-
-
+void drawFloor () {
+    drawCuboid(0.0f, -3.1f, 0.0f, 9.0f, 18.0f, 0.1f, 0.6f, 0.6f, 0.6f);
 }
 
 void drawBoard () {
     drawCuboid(0.0f, 1.5f, -14.0f, 4.0f, 0.01f, 2.4f, 0.0f, 0.3f, 0.0f);
+}
+
+void drawTubeLight() {
+    drawCuboid(0.0f, 4.0f, -14.0f, 1.5f, 0.01f, 0.09f, 1.0f, 1.0f, 1.0f);
 }
 
 void initializeRoom () {
@@ -141,6 +101,7 @@ void renderScene (void) {
     glLoadIdentity();
 
     glPushMatrix();
+
     glTranslatef(Tx, Ty, Tz);
     glScalef(Sx, Sy, Sz);
     glRotatef(Rx, 1.0f, 0.0f, 0.0f);
@@ -149,14 +110,9 @@ void renderScene (void) {
 
     initializeRoom();
 
-    // floor
-    drawCuboid(0.0f, -3.1f, 0.0f, 9.0f, 18.0f, 0.1f, 0.6f, 0.6f, 0.6f);
-
+    drawFloor();
     drawBoard();
-
-    // light bulb
-    drawCuboid(0.0f, 4.0f, -14.0f, 1.5f, 0.01f, 0.09f, 1.0f, 1.0f, 1.0f);
-
+    drawTubeLight();
     drawChairs();
 
     glPopMatrix();
