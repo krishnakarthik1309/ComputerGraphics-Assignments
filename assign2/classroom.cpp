@@ -4,11 +4,9 @@
 
 float Tx,Ty,Tz;
 float Sx,Sy,Sz;
-// float Rx,Ry,Rz;
-// float k = 1;
+float Rx,Ry,Rz;
 
 void drawCuboid (float x, float y, float z, float l, float w, float nh, float cr, float cg, float cb) {
-    float h = -nh;
     glPushMatrix();
 
     glTranslatef (x, y, z);
@@ -17,8 +15,8 @@ void drawCuboid (float x, float y, float z, float l, float w, float nh, float cr
     float diffuse[] = {cr, cg, cb, 1};
     float emmision[] = {0, 0, 0, 1};
     float specular[] = {1, 1, 1, 1};
+
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, diffuse) ;
-    // glMaterialfv (GL_FRONT, GL_SPECULAR, specular);
     glMaterialfv (GL_FRONT, GL_SPECULAR, diffuse) ;
     glMaterialfv (GL_FRONT, GL_EMISSION, emmision);
 
@@ -107,9 +105,34 @@ void drawChairs () {
 }
 
 void drawBoard () {
-    // drawCuboid(-4.8f, 1.5f, -14.0f, 1.5f, 0.01f, 2.0f, 0.5f, 0.5f, 0.5f);
     drawCuboid(0.0f, 1.5f, -14.0f, 4.0f, 0.01f, 2.4f, 0.0f, 0.3f, 0.0f);
-    // drawCuboid(4.8f, 1.5f, -14.0f, 1.5f, 0.01f, 2.0f, 0.5f, 0.5f, 0.5f);
+}
+
+void initializeRoom () {
+    glEnable(GL_CULL_FACE);
+
+    glShadeModel(GL_SMOOTH) ;
+    glEnable (GL_NORMALIZE) ;
+    glEnable (GL_LIGHTING) ;
+
+    //set the global ambient light
+    float globalAmb[] = {.2, .2, .2, 1};
+    glLightModelfv (GL_LIGHT_MODEL_AMBIENT, globalAmb) ;
+
+    //set up a light and enable it
+    float diffuse[] = {0.7, 0.7, 0.7, 1};
+    float ambient[] = {0, 0, 0, 1};
+    float specular[] = {0.7, 0.7, 0.7, 1};
+
+    glLightfv (GL_LIGHT0, GL_DIFFUSE, diffuse) ;
+    glLightfv (GL_LIGHT0, GL_AMBIENT, ambient) ;
+    glLightfv (GL_LIGHT0, GL_SPECULAR, specular) ;
+    glEnable (GL_LIGHT0) ; //enable the light
+
+    //set light position
+    // set last term to 0 for a spotlight
+    float lightpos[] = {0.0f, 4.0f, -13.0f, 1};
+    glLightfv (GL_LIGHT0, GL_POSITION, lightpos) ;
 }
 
 void renderScene (void) {
@@ -120,14 +143,14 @@ void renderScene (void) {
     glPushMatrix();
     glTranslatef(Tx, Ty, Tz);
     glScalef(Sx, Sy, Sz);
+    glRotatef(Rx, 1.0f, 0.0f, 0.0f);
+    glRotatef(Ry, 0.0f, 1.0f, 0.0f);
+    glRotatef(Rz, 1.0f, 0.0f, 1.0f);
 
-    // glPushMatrix();
-    // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
-    // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
-    // glRotatef(Rz, 1.0f, 0.0f, 1.0f);
+    initializeRoom();
 
     // floor
-    drawCuboid(0.0f, -3.1f, 0.0f, 9.0f, 14.0f, 0.1f, 0.6f, 0.6f, 0.6f);
+    drawCuboid(0.0f, -3.1f, 0.0f, 9.0f, 18.0f, 0.1f, 0.6f, 0.6f, 0.6f);
 
     drawBoard();
 
@@ -136,12 +159,6 @@ void renderScene (void) {
 
     drawChairs();
 
-    // glPushMatrix();
-    // glTranslatef(0.0f, 0.0f, 0.0f);
-    // glutSolidSphere(1, 20, 20);
-    // glPopMatrix();
-
-    // glPopMatrix();
     glPopMatrix();
     glutSwapBuffers();
 }
@@ -159,53 +176,10 @@ void changeSize (int x, int y) {
     glMatrixMode(GL_MODELVIEW);
 }
 
-void initializeRoom () {
-    // glRotatef(Rx, 1.0f, 0.0f, 0.0f);
-    // glRotatef(Ry, 0.0f, 1.0f, 0.0f);
-    // glRotatef(Rz, 1.0f, 0.0f, 1.0f);
-    // glClearColor(0.0,0.0,0.0,0.0);
-
-    // glEnable(GL_DEPTH_TEST);
-    // glDepthFunc(GL_LESS);
-    glEnable(GL_CULL_FACE);
-
-    glShadeModel(GL_SMOOTH) ;
-    glEnable (GL_NORMALIZE) ;
-    glEnable (GL_LIGHTING) ;
-    //set the global ambient light
-    float globalAmb[] = {.2, .2, .2, 1};
-    glLightModelfv (GL_LIGHT_MODEL_AMBIENT, globalAmb) ;
-    //set up a light and enable it
-    float diffuse[] = {0.7, 0.7, 0.7, 1};
-    float ambient[] = {0, 0, 0, 1};
-    float specular[] = {0.7, 0.7, 0.7, 1};
-
-    glLightfv (GL_LIGHT0, GL_DIFFUSE, diffuse) ;
-    glLightfv (GL_LIGHT0, GL_AMBIENT, ambient) ;
-    glLightfv (GL_LIGHT0, GL_SPECULAR, specular) ;
-    glEnable (GL_LIGHT0) ; //enable the light
-    //set light position
-    // set last term to 0 for a spotlight
-    float lightpos[] = {0.0f, 4.0f, -23.0f, 1};
-    glLightfv (GL_LIGHT0, GL_POSITION, lightpos) ;
-    //This code sets a simple material property
-    // float ambient[] = {.5, 0, 0, 1};
-    // float specular[] = {1, 1, 1, 1};
-    //set params for front and back separately (GL_BACK, GL_FRONT_AND_BACK)
-    // glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ambient) ;
-    // glMaterialfv (GL_FRONT, GL_SPECULAR, ambient) ;
+void animate (void) {
+    Ry += 0.2;
+    renderScene();
 }
-
-// void animate (void) {
-//     // if (Ry > 100.0) {
-//     //     k = -1;
-//     // } else if (Ry < -5.0) {
-//     //     k = 1;
-//     // }
-//     Ry += k*0.2;
-//     initializeRoom();
-//     renderScene();
-// }
 
 int main (int argc, char **argv) {
     glutInit (&argc, argv);
@@ -213,14 +187,14 @@ int main (int argc, char **argv) {
     glutInitWindowSize(900, 700);
     glutCreateWindow("Classroom");
 
-    Tx = 0.0; Ty = 2.0; Tz = -10.0;
+    Tx = 0.0; Ty = -2.0; Tz = -10.0;
     Sx = 1.0; Sy = 1.0; Sz = 1.0;
+    Rx = 25.0; Ry = 00.0; Rz = 00.0;
 
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
 
-    initializeRoom();
-    // glutIdleFunc(animate);
+    glutIdleFunc(animate);
 
     glutMainLoop();
 
