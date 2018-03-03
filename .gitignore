@@ -3,4 +3,4 @@ run
 RemoteSystemsTempFiles/
 .cproject
 .project
-.settings/language.settings.xml
+.settings/
