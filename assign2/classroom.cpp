@@ -13,7 +13,7 @@ void drawCuboid (float x, float y, float z, float l, float w, float nh, float cr
     glColor3f(cr, cg, cb);
 
     float diffuse[] = {cr, cg, cb, 1};
-    float emmision[] = {0, 0, 0, 1};
+    float emmision[] = {0.2*cr, 0.2*cg, 0.2*cb, 1};
     float specular[] = {1, 1, 1, 1};
 
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, diffuse) ;
@@ -36,11 +36,11 @@ void drawChair (float x, float y, float z) {
     drawCuboid(x - l + ll, y - h - hl, z - w + wl, ll, wl, hl, 1.0f, 0.5f, 0.0f);
 
     // base
-    drawCuboid(x, y, z, l, w, h, 1.0f, 0.0f, 0.0f);
+    drawCuboid(x, y, z, l, w, h, 0.8f, 0.0f, 0.0f);
 
     // back
     hl = 0.32f; ll = 0.25f; wl = 0.025f;
-    drawCuboid(x, y + h + hl, z + w - wl, ll, wl, hl, 0.0f, 0.0f, 1.0f);
+    drawCuboid(x, y + h + hl, z + w - wl, ll, wl, hl, 0.0f, 0.0f, 0.8f);
 
 }
 
@@ -57,7 +57,7 @@ void drawChairs () {
 }
 
 void drawFloor () {
-    drawCuboid(0.0f, -3.1f, 0.0f, 9.0f, 18.0f, 0.1f, 0.6f, 0.6f, 0.6f);
+    drawCuboid(0.0f, -3.1f, 0.0f, 9.0f, 18.0f, 0.1f, 0.4f, 0.4f, 0.4f);
 }
 
 void drawBoard () {
@@ -91,7 +91,7 @@ void initializeRoom () {
 
     //set light position
     // set last term to 0 for a spotlight
-    float lightpos[] = {0.0f, 4.0f, -13.0f, 1};
+    float lightpos[] = {0.0f, 0.0f, -13.0f, 1};
     glLightfv (GL_LIGHT0, GL_POSITION, lightpos) ;
 }
 
@@ -143,9 +143,9 @@ int main (int argc, char **argv) {
     glutInitWindowSize(900, 700);
     glutCreateWindow("Classroom");
 
-    Tx = 0.0; Ty = -2.0; Tz = -10.0;
+    Tx = 0.0; Ty = 0.0; Tz = -10.0;
     Sx = 1.0; Sy = 1.0; Sz = 1.0;
-    Rx = 25.0; Ry = 00.0; Rz = 00.0;
+    Rx = 10.0; Ry = 00.0; Rz = 00.0;
 
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);

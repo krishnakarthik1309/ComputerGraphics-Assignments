@@ -1,0 +1,1 @@
+g++ classroom.cpp -lGL -lGLU -lglut -o run
