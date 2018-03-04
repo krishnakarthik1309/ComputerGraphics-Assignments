@@ -3,7 +3,7 @@ compile:
 
 submit:
 	mkdir krishna_14292
-	cp -r *.h *.md shaders/ *.cpp makefile krishna_14292/
+	cp -r *.h *.md shaders/ textures/ *.cpp Makefile krishna_14292/
 	zip -r -q krishna_14292.zip krishna_14292/
 	rm -r krishna_14292/
 

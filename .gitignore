@@ -4,3 +4,4 @@ RemoteSystemsTempFiles/
 .cproject
 .project
 .settings/
+*.zip
