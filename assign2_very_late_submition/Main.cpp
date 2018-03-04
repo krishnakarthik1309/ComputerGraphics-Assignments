@@ -9,8 +9,9 @@
 #include "shaderMethods.h"
 #include "renderObjects.h"
 
+const GLfloat globalAmb[] = {.2, .2, .2, 1};
 const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
-GLfloat Ry = 0, k = 1;
+GLfloat Ry = 15.0, Tx = 0.0, Ty = 0.0, Tz = 2.0;
 
 void renderScene () {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -18,6 +19,9 @@ void renderScene () {
 
 	glPushMatrix();
 	glRotatef(Ry, 0.0f, 1.0f, 0.0f);
+	glTranslatef(Tx, Ty, Tz);
+	glEnable (GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
 	renderFloor();
 	renderCeiling();
@@ -26,6 +30,7 @@ void renderScene () {
 
 	renderAllWalls();
 	renderBoard();
+	renderDoorAndTable();
 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -44,19 +49,56 @@ void changeSize (int width, int height) {
 	glLoadIdentity() ;
 }
 
-void animate () {
-	if (Ry > 40) {
-		k = -1;
-	} else if (Ry < 0) {
-		k = 1;
+void keyboard(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case 'r':
+		Ry = 0;
+		Tx = 0;
+		Ty = 0;
+		Tz = 2;
+		renderScene();
+		break;
+	case 'l':
+		Ry += 5;
+		renderScene();
+		break;
+	case 'h':
+		Ry -= 5;
+		renderScene();
+		break;
+	case 'w':
+		Tz += 2;
+		renderScene();
+		break;
+	case 's':
+		Tz -= 2;
+		renderScene();
+		break;
+	case 'a':
+		Tx += 2;
+		renderScene();
+		break;
+	case 'd':
+		Tx -= 2;
+		renderScene();
+		break;
+	case 'j':
+		Ty -= 2;
+		renderScene();
+		break;
+	case 'k':
+		Ty += 2;
+		renderScene();
+		break;
 	}
-	Ry += k*0.5;
-	renderScene();
 }
 
 // Initialize lighting, depth func, etc
 void initializeRoom () {
 	glClearColor(0,0,0,1);
+
+	glShadeModel(GL_SMOOTH);
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -64,7 +106,8 @@ void initializeRoom () {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	//set the global ambient light
+	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, globalAmb) ;
 }
 
 int main(int argc, char **argv) {
@@ -75,7 +118,7 @@ int main(int argc, char **argv) {
 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
-	glutIdleFunc(animate);
+	glutKeyboardFunc(keyboard);
 
 	initializeRoom();
 	initializeGlew();

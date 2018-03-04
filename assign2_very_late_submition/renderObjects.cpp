@@ -37,7 +37,7 @@ void drawChair (float x, float y, float z) {
 	drawCuboid(x - l + ll, y - h - hl, z - w + wl, ll, wl, hl, 204.0f/255.0f, 153.0f/255.0f, 102.0f/255.0f);
 
 	// base
-	drawCuboid(x, y, z, l, w, h, 0.5f, 0.2f, 0.0f);
+	drawCuboid(x, y, z, l, w, h, 0.5f, 0.35f, 0.0f);
 
 	// back
 	hl = 0.32f; ll = 0.35f; wl = 0.025f;
@@ -78,20 +78,21 @@ void renderWall (GLfloat x, GLfloat y, GLfloat z, GLfloat l, GLfloat w, GLfloat 
 
 void renderSideWalls () {
 	GLuint p = setShaders((char *) "shaders/vert_side_wall.glsl", (char *) "shaders/frag_common.glsl");
-	setTextures(p, (char *) "texture", 0, (char *) "textures/Birch_bark_tile.tga");
+	setTextures(p, (char *) "texture", 0, (char *) "textures/bricks_white.tga");
 
 	// left, right wall in order
-	renderWall(-2.5f, 1.5f, -24.0f, 0.5f, 22.0f, 5.0f);
-	renderWall(21.5f, 1.5f, -24.0f, 0.5f, 22.0f, 5.0f);
+	renderWall(-3.0f, 1.5f, -24.0f, 0.5f, 22.0f, 5.0f);
+	renderWall(20.0f, 1.5f, -24.0f, 0.5f, 22.0f, 5.0f);
 
 	glDeleteProgram(p);
 }
 
 void renderMidWall () {
 	GLuint p = setShaders((char *) "shaders/vert_mid_wall.glsl", (char *) "shaders/frag_common.glsl");
-	setTextures(p, (char *) "texture", 0, (char *) "textures/bricks_white.tga");
+	setTextures(p, (char *) "texture", 0, (char *) "textures/Birch_bark_tile.tga");
 
-	renderWall(8.5f, 1.5f, -44.0f, 12.0f, 0.5f, 5.0f);
+	renderWall(8.5f, 1.5f, -45.0f, 11.0f, 0.5f, 5.0f);
+	renderWall(10.5f, 1.5f, -3.0f, 9.0f, 0.5f, 5.0f);
 
 	glDeleteProgram(p);
 }
@@ -105,7 +106,32 @@ void renderBoard () {
 	GLuint p = setShaders((char *) "shaders/vert_mid_wall.glsl", (char *) "shaders/frag_common.glsl");
 	setTextures(p, (char *) "texture", 0, (char *) "textures/Green-Chalkboard-Texture.tga");
 
-	drawCuboid(9.0f, 1.5f, -43.0f, 6.0f, 0.1f, 2.5f, 0.4f, 0.4f, 0.4f);
+	drawCuboid(9.0f, 1.5f, -44.0f, 6.0f, 0.1f, 2.5f, 0.4f, 0.4f, 0.4f);
+
+	glDeleteProgram(p);
+}
+
+void renderTable () {
+	float x = -1.25f, y = -1.6f, z = -40.0f;
+	float h = 0.15f, l = 0.9f, w = 1.7f;
+	float hl = 0.75f, ll = 0.1f, wl = 0.075f;
+
+	// 4 legs
+	drawCuboid(x - l + ll, y - h - hl, z + w - wl, ll, wl, hl, 0.3f, 0.3f, 0.0f);
+	drawCuboid(x + l - ll, y - h - hl, z + w - wl, ll, wl, hl, 0.3f, 0.3f, 0.0f);
+	drawCuboid(x + l - ll, y - h - hl, z - w + wl, ll, wl, hl, 0.3f, 0.3f, 0.0f);
+	drawCuboid(x - l + ll, y - h - hl, z - w + wl, ll, wl, hl, 0.3f, 0.3f, 0.0f);
+
+	// base
+	drawCuboid(x, y, z, l, w, h, 0.5f, 0.35f, 0.0f);
+}
+
+void renderDoorAndTable() {
+	GLuint p = setShaders((char *) "shaders/vert_door.glsl", (char *) "shaders/frag_common.glsl");
+	setTextures(p, (char *) "texture", 0, (char *) "textures/door.tga");
+
+	renderWall(-0.5f, 1.5f, -3.0f, 2.0f, 0.5f, 5.0f);
+	renderTable();
 
 	glDeleteProgram(p);
 }
