@@ -1,4 +1,4 @@
-# Practice: shaders and textures
+# Assignment2: Illumination, shaders and textures
 
 ## Steps to run
 * cd to project directory
@@ -7,10 +7,10 @@
 
 ## Navigation
 * 	w: -z, s: +z
-	a: -x, d: +x
-	h: counter-clock wise rot. about y axis
-	l: clock wise rotation about y axis
-	r: reset
+*	a: -x, d: +x
+*	h: counter-clock wise rot. about y axis
+*	l: clock wise rotation about y axis
+*	r: reset
 
 ## Features implemented
 * Illumination: Lighting (enabled light0 and global illumination), Face culling
